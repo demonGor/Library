@@ -1,0 +1,47 @@
+﻿@model IEnumerable<LibraryDataEF.BOOKS_SOURCES>
+
+@{
+    ViewBag.Title = "Посилання на книгу " + ViewBag.Book;
+}
+
+<h2>@ViewBag.Title</h2>
+<p>
+    @Html.ActionLink("Додати посилання на дану книгу", "Create", new { id = ViewBag.Id })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BS_S)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BS_INFO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BOOKS.BK_NAME)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BS_S)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BS_INFO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BOOKS.BK_NAME)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id = item.BS_ID, bk_id = item.BS_BK }) |
+
+            @Html.ActionLink("Видалити", "Delete", new { id = item.BS_ID, bk_id = item.BS_BK })
+        </td>
+    </tr>
+}
+
+</table>
+<div>
+    @Html.ActionLink("Назад", "BooksRender", "BOOK")
+</div>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<LibraryDataEF.DICTIONARY_AGE_CATEGORIES>
+
+@{
+    ViewBag.Title = "Вікові категорії";
+}
+
+<h2>Вікові категорії</h2>
+
+<p>
+    @Html.ActionLink("Додати категорію", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DAC_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DAC_FROM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DAC_TO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DAC_INFO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DAC_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DAC_FROM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DAC_TO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DAC_INFO)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.DAC_ID }) |
+            @Html.ActionLink("Книги даної категорії", "BooksByCategory","BOOK" ,new { id=item.DAC_ID },null) |
+
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<LibraryDataEF.GENRES>
+
+@{
+    ViewBag.Title = "Жанри";
+}
+
+<h2>Жанри</h2>
+
+<p>
+    @Html.ActionLink("Додати жанр", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GN_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GN_INFO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.GN_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GN_INFO)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.GN_ID }) |
+            @Html.ActionLink("Книги даного жанру", "BooksByGenre","BOOK", new { id=item.GN_ID },null) |
+            @Html.ActionLink("Видалити", "Delete", new { id=item.GN_ID })
+        </td>
+    </tr>
+}
+
+</table>

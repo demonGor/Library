@@ -1,0 +1,51 @@
+﻿@model LibraryDataEF.AUTHORS_REVIEWS
+
+@{
+    ViewBag.Title = "Додавання";
+    IEnumerable<LibraryDataEF.AUTHORS> CmpList = ViewBag.CmpList;
+
+}
+
+<h2>Додавання відгука до автора @ViewBag.Author</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+      
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.AR_AU, "Автор", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                
+                @Html.DropDownListFor(model => model.AR_AU, CmpList.Select(z => new SelectListItem() { Text = z.AU_NAME, Value = (z.AU_ID).ToString(), Selected = true }),new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AR_AU, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AR_R, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AR_R, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AR_R, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Додати" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Назад", "AuthorReviews", new { id = CmpList.First().AU_ID })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

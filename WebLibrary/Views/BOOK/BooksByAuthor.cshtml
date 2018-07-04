@@ -1,0 +1,54 @@
+﻿@model IEnumerable<LibraryDataEF.BOOKS>
+
+@{
+    ViewBag.Title = "Книги автора "+ViewBag.AuthorName;
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BK_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BK_INFO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BK_RATING)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DICTIONARY_AGE_CATEGORIES.DAC_NAME)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BK_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BK_INFO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BK_RATING)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DICTIONARY_AGE_CATEGORIES.DAC_NAME)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.BK_ID }) |
+            @Html.ActionLink("Деталі", "Details", new { id=item.BK_ID }) |
+            @Html.ActionLink("Відгуки", "BookReviews", "BooksReviews", new { id = item.BK_ID }, null) |
+            @Html.ActionLink("Посилання", "BookSources", "BooksSources", new { id = item.BK_ID }, null) |
+            @Html.ActionLink("Видалити", "Delete", new { id=item.BK_ID })
+        </td>
+    </tr>
+}
+
+</table>
+<div>
+    @Html.ActionLink("Назад", "AllAuthors", "Authors")
+</div>

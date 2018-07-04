@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CD3B6AEC-B04A-455E-939E-DBB42DB5BB56}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Library</RootNamespace>
+    <AssemblyName>Library</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuthorReviews.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthorReviews.Designer.cs">
+      <DependentUpon>AuthorReviews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AuthorsBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthorsBook.Designer.cs">
+      <DependentUpon>AuthorsBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BookReviewsAndSources.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BookReviewsAndSources.Designer.cs">
+      <DependentUpon>BookReviewsAndSources.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BooksGenres.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BooksGenres.Designer.cs">
+      <DependentUpon>BooksGenres.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Enter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Enter.Designer.cs">
+      <DependentUpon>Enter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindBook.Designer.cs">
+      <DependentUpon>FindBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindBooksCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindBooksCategory.Designer.cs">
+      <DependentUpon>FindBooksCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindBooksGenres.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindBooksGenres.Designer.cs">
+      <DependentUpon>FindBooksGenres.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAddAuthorReview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAddAuthorReview.Designer.cs">
+      <DependentUpon>FrmAddAuthorReview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAddAward.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAddAward.Designer.cs">
+      <DependentUpon>FrmAddAward.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAddBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAddBook.Designer.cs">
+      <DependentUpon>FrmAddBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAddBookRew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAddBookRew.Designer.cs">
+      <DependentUpon>FrmAddBookRew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAddBookSource.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAddBookSource.Designer.cs">
+      <DependentUpon>FrmAddBookSource.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmAwardInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAwardInfo.Designer.cs">
+      <DependentUpon>FrmAwardInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmLibrary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLibrary.Designer.cs">
+      <DependentUpon>FrmLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AuthorReviews.resx">
+      <DependentUpon>AuthorReviews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AuthorsBook.resx">
+      <DependentUpon>AuthorsBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookReviewsAndSources.resx">
+      <DependentUpon>BookReviewsAndSources.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BooksGenres.resx">
+      <DependentUpon>BooksGenres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Enter.resx">
+      <DependentUpon>Enter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindBook.resx">
+      <DependentUpon>FindBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindBooksCategory.resx">
+      <DependentUpon>FindBooksCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindBooksGenres.resx">
+      <DependentUpon>FindBooksGenres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAddAuthorReview.resx">
+      <DependentUpon>FrmAddAuthorReview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAddAward.resx">
+      <DependentUpon>FrmAddAward.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAddBook.resx">
+      <DependentUpon>FrmAddBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAddBookRew.resx">
+      <DependentUpon>FrmAddBookRew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAddBookSource.resx">
+      <DependentUpon>FrmAddBookSource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAwardInfo.resx">
+      <DependentUpon>FrmAwardInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLibrary.resx">
+      <DependentUpon>FrmLibrary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\LibraryDataEF.AUTHORS.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.AUTHORS_REVIEWS.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.AWARDS.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.BOOKS.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.BOOKS_AUTHORS.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.BOOKS_GENRES.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.BOOKS_REVIEWS.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.BOOKS_SOURCES.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.Class1.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.DBLibraryEntities.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.DICTIONARY_AGE_CATEGORIES.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.GENRES.datasource" />
+    <None Include="Properties\DataSources\LibraryDataEF.sysdiagrams.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibraryDataEF\LibraryDataEF.csproj">
+      <Project>{92fd37fb-9e11-4edd-b77a-0dc3fe9f9349}</Project>
+      <Name>LibraryDataEF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

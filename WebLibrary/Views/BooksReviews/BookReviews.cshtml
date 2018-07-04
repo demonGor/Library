@@ -1,0 +1,42 @@
+﻿@model IEnumerable<LibraryDataEF.BOOKS_REVIEWS>
+
+@{
+    ViewBag.Title = "Відгуки про  книгу " + ViewBag.Book;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Додати відгук до даної книги", "Create", new { id = ViewBag.Id })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BR_R)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BOOKS.BK_NAME)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BR_R)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BOOKS.BK_NAME)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.BR_ID,bk_id=item.BR_BK }) |
+           
+            @Html.ActionLink("Видалити", "Delete", new { id=item.BR_ID, bk_id = item.BR_BK })
+        </td>
+    </tr>
+}
+
+</table>
+<div>
+    @Html.ActionLink("Назад", "BooksRender", "BOOK")
+</div>

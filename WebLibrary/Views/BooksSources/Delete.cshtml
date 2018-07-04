@@ -1,0 +1,49 @@
+﻿@model LibraryDataEF.BOOKS_SOURCES
+
+@{
+    IEnumerable<LibraryDataEF.BOOKS> CmpList = ViewBag.CmpList;
+    ViewBag.Title = "Видалення посилання";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Ви впевнені, що хочете видалити це посилання?</h3>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BS_S)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BS_S)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BS_INFO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BS_INFO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BOOKS.BK_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BOOKS.BK_NAME)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            @Html.ActionLink("Назад", "BookSources", new { id = CmpList.First().BK_ID })
+        </div>
+    }
+</div>

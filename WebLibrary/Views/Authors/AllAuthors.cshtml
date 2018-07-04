@@ -1,0 +1,41 @@
+﻿@model IEnumerable<LibraryDataEF.AUTHORS>
+
+@{
+    ViewBag.Title = "Автори";
+}
+
+<h2>Автори</h2>
+
+<p>
+    @Html.ActionLink("Додати автора", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AU_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AU_INFO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AU_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AU_INFO)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.AU_ID }) |
+            @Html.ActionLink("Книги даного автора", "BooksByAuthor","BOOK", new { id=item.AU_ID },null) |
+            @Html.ActionLink("Відгуки", "AuthorReviews", "AUTHORS_REVIEWS", new { id = item.AU_ID }, null)|
+            @Html.ActionLink("Видалити", "Delete", new { id=item.AU_ID }) 
+           
+        </td>
+    </tr>
+}
+
+</table>

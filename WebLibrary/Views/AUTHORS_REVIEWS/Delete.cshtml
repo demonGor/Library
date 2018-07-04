@@ -1,0 +1,41 @@
+﻿@model LibraryDataEF.AUTHORS_REVIEWS
+
+@{
+    IEnumerable<LibraryDataEF.AUTHORS> CmpList = ViewBag.CmpList;
+    ViewBag.Title = "Видалення відгука";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Ви впевнені, що хочете видалити цей відгук?</h3>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AR_R)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AR_R)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AUTHORS.AU_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AUTHORS.AU_NAME)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            @Html.ActionLink("Назад", "AuthorReviews", new { id = CmpList.First().AU_ID })
+        </div>
+    }
+</div>

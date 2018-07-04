@@ -1,0 +1,17 @@
+﻿
+@{ 
+    ViewBag.Title = "Деталі про книгу "+ViewBag.Book;
+    <div>
+@{ 
+    Html.RenderAction("BooksAuthorsByBook", "BooksAuthors", new { id = ViewBag.Id });
+    Html.RenderAction("BooksGenresByBook", "BooksGenres", new { id = ViewBag.Id });
+}
+    </div>
+    <div>
+        @Html.ActionLink("Назад", "BooksRender")
+    </div>
+
+}
+
+
+
