@@ -19,7 +19,7 @@ namespace LibraryDataEF
             [Display(Name ="Назва книги")]
             public string BK_NAME { get; set; }
             [Required(ErrorMessage = "Це поле не може бути порожнім")]
-            [Range(0,10,ErrorMessage ="Рейтинг повинен бути в межах від 2 до 10")]
+            [Range(0,10,ErrorMessage ="Рейтинг повинен бути в межах від 1 до 10")]
             [Display(Name = "Рейтинг")]
             public int BK_RATING { get; set; }
             [HiddenInput(DisplayValue =false)]
