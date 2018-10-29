@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace LibraryDataEF
+namespace WebLibrary.Models
 {
     [MetadataType(typeof(AUTHORS_REVIEWSMD))]
     partial class AUTHORS_REVIEWS

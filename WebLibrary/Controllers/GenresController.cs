@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using LibraryDataEF;
+using WebLibrary.Models;
 
 namespace WebLibrary.Controllers
 {
     public class GenresController : Controller
     {
-        private DBLibraryEntities db = new DBLibraryEntities();
+        private DBLibraryEntities1 db = new DBLibraryEntities1();
         // GET: Genres
         public ActionResult AllGenres()
         {
@@ -62,11 +62,11 @@ namespace WebLibrary.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteG(int id, FormCollection collection)
         {
-            var BG = (from c in db.BOOKS_GENRES where c.BG_GN == id select c);
+            
             var R = (from c in db.GENRES where c.GN_ID == id select c).First();
             try
             {
-                db.BOOKS_GENRES.RemoveRange(BG);
+                R.BOOKS.Clear();
                 db.GENRES.Remove(R);
                 db.SaveChanges();
                 return RedirectToAction("AllGenres");

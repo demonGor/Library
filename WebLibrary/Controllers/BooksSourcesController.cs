@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using LibraryDataEF;
+using WebLibrary.Models;
+
 namespace WebLibrary.Controllers
 {
     public class BooksSourcesController : Controller
     {
         // GET: BooksSources
-        private DBLibraryEntities db = new DBLibraryEntities();
+        private DBLibraryEntities1 db = new DBLibraryEntities1();
 
         public ActionResult BookSources(int id)
         {

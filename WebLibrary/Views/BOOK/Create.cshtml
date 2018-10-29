@@ -1,7 +1,9 @@
-﻿@model LibraryDataEF.BOOKS
+﻿@model WebLibrary.Models.BOOKS
 
-@{
-    IEnumerable<LibraryDataEF.DICTIONARY_AGE_CATEGORIES> CmpList = ViewBag.CmpList;
+@{IEnumerable<WebLibrary.Models.DICTIONARY_AGE_CATEGORIES> CmpList = ViewBag.CmpList;
+    
+
+
     ViewBag.Title = "Додавання";
 }
 
@@ -46,6 +48,23 @@
                 @Html.DropDownListFor(model => model.BK_DAC, CmpList.Select(z => new SelectListItem() { Text = z.DAC_NAME, Value = (z.DAC_ID).ToString(), Selected = true }), new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BK_DAC, "", new { @class = "text-danger" })
             </div>
+        </div>
+        <div class="col-md-10">
+                <h3>Автори</h3>
+                @foreach (var c in ViewBag.Authors)
+                {
+                    <input type="checkbox" name="selectedAuthors" value="@c.AU_ID"
+                           @(Model.AUTHORS.Contains(c) ? "checked=\"checked\"" : "") />@c.AU_NAME <br />
+                }
+            </div>
+
+        <div class="col-md-10">
+            <h3>Жанри</h3>
+            @foreach (var c in ViewBag.Genres)
+                {
+                <input type="checkbox" name="selectedGenres" value="@c.GN_ID"
+                       @(Model.GENRES.Contains(c) ? "checked=\"checked\"" : "") />@c.GN_NAME <br />
+            }
         </div>
 
         <div class="form-group">
