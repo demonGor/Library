@@ -1,0 +1,39 @@
+﻿@model IEnumerable<LibraryDataEF.BOOKS_GENRES>
+
+@{
+    int bk_id = ViewBag.Id;
+    ViewBag.Title = "Жанри даної книги";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Додати жанр для даної книги", "Create",new {id=bk_id })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BOOKS.BK_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GENRES.GN_NAME)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BOOKS.BK_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GENRES.GN_NAME)
+        </td>
+        <td>
+           
+            @Html.ActionLink("Видалити", "Delete", new { id=item.BG_ID,bk_id=item.BG_BK })
+        </td>
+    </tr>
+}
+
+</table>

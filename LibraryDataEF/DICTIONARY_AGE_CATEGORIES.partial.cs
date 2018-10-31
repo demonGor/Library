@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
-namespace WebLibrary.Models
+namespace LibraryDataEF
 {
    [MetadataType(typeof(DICTIONARY_AGE_CATEGORIESMD))]
    partial class DICTIONARY_AGE_CATEGORIES

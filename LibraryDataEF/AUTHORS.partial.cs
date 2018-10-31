@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using LibraryDataEF;
 using System.Web.Mvc;
 
-namespace WebLibrary.Models
+namespace LibraryDataEF
 {
     [MetadataType(typeof(AUTHORSMD))]
     partial class AUTHORS

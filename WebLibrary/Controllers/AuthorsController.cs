@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebLibrary.Models;
-
+using LibraryDataEF;
 namespace WebLibrary.Controllers
 {
     public class AuthorsController : Controller
     {
-       private DBLibraryEntities1 db = new DBLibraryEntities1();
+        DBLibraryEntities db = new DBLibraryEntities();
         // GET: Authors
         public ActionResult AllAuthors()
         {
@@ -24,7 +23,6 @@ namespace WebLibrary.Controllers
         [HttpPost, ActionName("Edit")]
         public ActionResult EditA(int id, FormCollection collection)
         {
-            
             var R = (from c in db.AUTHORS where c.AU_ID == id select c).First();
             try
             {
@@ -66,14 +64,14 @@ namespace WebLibrary.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteA(int id, FormCollection collection)
         {
-            
+            var BA = (from c in db.BOOKS_AUTHORS where c.BA_AU == id select c);
            
             var AR = (from c in db.AUTHORS_REVIEWS where c.AR_AU == id select c);
            
             var A = (from c in db.AUTHORS where c.AU_ID == id select c).First();
             try
             {
-                A.BOOKS.Clear();
+                db.BOOKS_AUTHORS.RemoveRange(BA);
                
                 db.AUTHORS_REVIEWS.RemoveRange(AR);
               
