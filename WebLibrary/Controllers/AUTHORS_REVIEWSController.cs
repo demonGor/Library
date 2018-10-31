@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using LibraryDataEF;
+using WebLibrary.Models;
+
 namespace WebLibrary.Controllers
 {
     public class AUTHORS_REVIEWSController : Controller
     {
-        private DBLibraryEntities db = new DBLibraryEntities();
+        private DBLibraryEntities1 db = new DBLibraryEntities1();
         // GET: AUTHORS_REVIEWS
         public ActionResult AuthorReviews(int id)
         {

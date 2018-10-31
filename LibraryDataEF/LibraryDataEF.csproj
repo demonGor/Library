@@ -80,92 +80,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AUTHORS.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AUTHORS.partial.cs" />
-    <Compile Include="AUTHORS_REVIEWS.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AUTHORS_REVIEWS.partial.cs" />
-    <Compile Include="AWARDS.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BOOKS.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BOOKS.partial.cs" />
-    <Compile Include="BOOKS_AUTHORS.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BOOKS_AUTHORS.partial.cs" />
-    <Compile Include="BOOKS_GENRES.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BOOKS_GENRES.partial.cs" />
-    <Compile Include="BOOKS_REVIEWS.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BOOKS_REVIEWS.partial.cs" />
-    <Compile Include="BOOKS_SOURCES.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BOOKS_SOURCES.partial.cs" />
-    <Compile Include="DICTIONARY_AGE_CATEGORIES.partial.cs" />
-    <Compile Include="DICTIONARY_AGE_CATEGORIES.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GENRES.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GENRES.partial.cs" />
-    <Compile Include="ModelLibrary.Context.cs">
+    <Compile Include="LibraryModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelLibrary.Context.tt</DependentUpon>
+      <DependentUpon>LibraryModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelLibrary.cs">
+    <Compile Include="LibraryModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
+      <DependentUpon>LibraryModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelLibrary.Designer.cs">
+    <Compile Include="LibraryModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelLibrary.edmx</DependentUpon>
+      <DependentUpon>LibraryModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>ModelLibrary.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="ModelLibrary.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelLibrary.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="ModelLibrary.edmx.diagram">
-      <DependentUpon>ModelLibrary.edmx</DependentUpon>
+    <EntityDeploy Include="LibraryModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LibraryModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="LibraryModel.edmx.diagram">
+      <DependentUpon>LibraryModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ModelLibrary.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelLibrary.edmx</DependentUpon>
-      <LastGenOutput>ModelLibrary.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="ModelLibrary.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelLibrary.edmx</DependentUpon>
-      <LastGenOutput>ModelLibrary.cs</LastGenOutput>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Content Include="LibraryModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LibraryModel.edmx</DependentUpon>
+      <LastGenOutput>LibraryModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="LibraryModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LibraryModel.edmx</DependentUpon>
+      <LastGenOutput>LibraryModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище DBLibraryModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DBLibraryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AUTHORS">
           <Key>
             <PropertyRef Name="AU_ID" />
@@ -20,16 +20,6 @@
           <Property Name="AR_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AR_AU" Type="int" Nullable="false" />
           <Property Name="AR_R" Type="ntext" />
-        </EntityType>
-        <EntityType Name="AWARDS">
-          <Key>
-            <PropertyRef Name="AW_ID" />
-          </Key>
-          <Property Name="AW_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AW_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="AW_DATE" Type="date" />
-          <Property Name="AW_INFO" Type="ntext" />
-          <Property Name="AW_BA" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="BOOKS">
           <Key>
@@ -58,19 +48,23 @@
           <Property Name="BS_S" Type="ntext" />
           <Property Name="BS_INFO" Type="ntext" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DBLibrary.dbo.BOOKS-AUTHORS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="BOOKS-AUTHORS">
           <Key>
-            <PropertyRef Name="BA_ID" />
+            <PropertyRef Name="BA_BK" />
+            <PropertyRef Name="BA_AU" />
           </Key>
-          <Property Name="BA_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BA_BK" Type="int" Nullable="false" />
           <Property Name="BA_AU" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DBLibrary.dbo.BOOKS-GENRES' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="BOOKS-GENRES">
           <Key>
-            <PropertyRef Name="BG_ID" />
+            <PropertyRef Name="BG_BK" />
+            <PropertyRef Name="BG_GN" />
           </Key>
-          <Property Name="BG_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BG_BK" Type="int" Nullable="false" />
           <Property Name="BG_GN" Type="int" Nullable="false" />
         </EntityType>
@@ -111,18 +105,6 @@
             </Principal>
             <Dependent Role="AUTHORS_REVIEWS">
               <PropertyRef Name="AR_AU" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AWARDS_BOOKS-AUTHORS">
-          <End Role="BOOKS-AUTHORS" Type="Self.BOOKS-AUTHORS" Multiplicity="1" />
-          <End Role="AWARDS" Type="Self.AWARDS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BOOKS-AUTHORS">
-              <PropertyRef Name="BA_ID" />
-            </Principal>
-            <Dependent Role="AWARDS">
-              <PropertyRef Name="AW_BA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -210,25 +192,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище DBLibraryModelContainer">
+        <EntityContainer Name="DBLibraryModelStoreContainer">
           <EntitySet Name="AUTHORS" EntityType="Self.AUTHORS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AUTHORS_REVIEWS" EntityType="Self.AUTHORS_REVIEWS" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AWARDS" EntityType="Self.AWARDS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BOOKS" EntityType="Self.BOOKS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BOOKS_REVIEWS" EntityType="Self.BOOKS_REVIEWS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BOOKS_SOURCES" EntityType="Self.BOOKS_SOURCES" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BOOKS-AUTHORS" EntityType="Self.BOOKS-AUTHORS" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BOOKS-GENRES" EntityType="Self.BOOKS-GENRES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DICTIONARY_AGE_CATEGORIES" EntityType="Self.DICTIONARY_AGE_CATEGORIES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GENRES" EntityType="Self.GENRES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BOOKS-AUTHORS" EntityType="Self.BOOKS-AUTHORS" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [BOOKS-AUTHORS].[BA_BK] AS [BA_BK], 
+    [BOOKS-AUTHORS].[BA_AU] AS [BA_AU]
+    FROM [dbo].[BOOKS-AUTHORS] AS [BOOKS-AUTHORS]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="BOOKS-GENRES" EntityType="Self.BOOKS-GENRES" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [BOOKS-GENRES].[BG_BK] AS [BG_BK], 
+    [BOOKS-GENRES].[BG_GN] AS [BG_GN]
+    FROM [dbo].[BOOKS-GENRES] AS [BOOKS-GENRES]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_AUTHORS_REVIEWS_AUTHORS" Association="Self.FK_AUTHORS_REVIEWS_AUTHORS">
             <End Role="AUTHORS" EntitySet="AUTHORS" />
             <End Role="AUTHORS_REVIEWS" EntitySet="AUTHORS_REVIEWS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AWARDS_BOOKS-AUTHORS" Association="Self.FK_AWARDS_BOOKS-AUTHORS">
-            <End Role="BOOKS-AUTHORS" EntitySet="BOOKS-AUTHORS" />
-            <End Role="AWARDS" EntitySet="AWARDS" />
           </AssociationSet>
           <AssociationSet Name="FK_BOOKS_DICTIONARY_AGE_CATEGORIES" Association="Self.FK_BOOKS_DICTIONARY_AGE_CATEGORIES">
             <End Role="DICTIONARY_AGE_CATEGORIES" EntitySet="DICTIONARY_AGE_CATEGORIES" />
@@ -272,7 +259,7 @@
           <Property Name="AU_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="AU_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AUTHORS_REVIEWS" Relationship="Self.FK_AUTHORS_REVIEWS_AUTHORS" FromRole="AUTHORS" ToRole="AUTHORS_REVIEWS" />
-          <NavigationProperty Name="BOOKS_AUTHORS" Relationship="Self.FK_BOOKS_AUTHORS_AUTHORS" FromRole="AUTHORS" ToRole="BOOKS_AUTHORS" />
+          <NavigationProperty Name="BOOKS" Relationship="Self.BOOKS_AUTHORS" FromRole="AUTHORS" ToRole="BOOKS" />
         </EntityType>
         <EntityType Name="AUTHORS_REVIEWS">
           <Key>
@@ -282,17 +269,6 @@
           <Property Name="AR_AU" Type="Int32" Nullable="false" />
           <Property Name="AR_R" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AUTHORS" Relationship="Self.FK_AUTHORS_REVIEWS_AUTHORS" FromRole="AUTHORS_REVIEWS" ToRole="AUTHORS" />
-        </EntityType>
-        <EntityType Name="AWARDS">
-          <Key>
-            <PropertyRef Name="AW_ID" />
-          </Key>
-          <Property Name="AW_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AW_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AW_DATE" Type="DateTime" Precision="0" />
-          <Property Name="AW_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AW_BA" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BOOKS_AUTHORS" Relationship="Self.FK_AWARDS_BOOKS_AUTHORS" FromRole="AWARDS" ToRole="BOOKS_AUTHORS" />
         </EntityType>
         <EntityType Name="BOOKS">
           <Key>
@@ -306,8 +282,8 @@
           <NavigationProperty Name="DICTIONARY_AGE_CATEGORIES" Relationship="Self.FK_BOOKS_DICTIONARY_AGE_CATEGORIES" FromRole="BOOKS" ToRole="DICTIONARY_AGE_CATEGORIES" />
           <NavigationProperty Name="BOOKS_REVIEWS" Relationship="Self.FK_BOOKS_REVIEWS_BOOKS" FromRole="BOOKS" ToRole="BOOKS_REVIEWS" />
           <NavigationProperty Name="BOOKS_SOURCES" Relationship="Self.FK_BOOKS_SOURCES_BOOKS" FromRole="BOOKS" ToRole="BOOKS_SOURCES" />
-          <NavigationProperty Name="BOOKS_AUTHORS" Relationship="Self.FK_BOOKS_AUTHORS_BOOKS" FromRole="BOOKS" ToRole="BOOKS_AUTHORS" />
-          <NavigationProperty Name="BOOKS_GENRES" Relationship="Self.FK_BOOKS_GENRES_BOOKS" FromRole="BOOKS" ToRole="BOOKS_GENRES" />
+          <NavigationProperty Name="AUTHORS" Relationship="Self.BOOKS_AUTHORS" FromRole="BOOKS" ToRole="AUTHORS" />
+          <NavigationProperty Name="GENRES" Relationship="Self.BOOKS_GENRES" FromRole="BOOKS" ToRole="GENRES" />
         </EntityType>
         <EntityType Name="BOOKS_REVIEWS">
           <Key>
@@ -328,27 +304,6 @@
           <Property Name="BS_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BOOKS" Relationship="Self.FK_BOOKS_SOURCES_BOOKS" FromRole="BOOKS_SOURCES" ToRole="BOOKS" />
         </EntityType>
-        <EntityType Name="BOOKS_AUTHORS">
-          <Key>
-            <PropertyRef Name="BA_ID" />
-          </Key>
-          <Property Name="BA_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BA_BK" Type="Int32" Nullable="false" />
-          <Property Name="BA_AU" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AUTHORS" Relationship="Self.FK_BOOKS_AUTHORS_AUTHORS" FromRole="BOOKS_AUTHORS" ToRole="AUTHORS" />
-          <NavigationProperty Name="AWARDS" Relationship="Self.FK_AWARDS_BOOKS_AUTHORS" FromRole="BOOKS_AUTHORS" ToRole="AWARDS" />
-          <NavigationProperty Name="BOOKS" Relationship="Self.FK_BOOKS_AUTHORS_BOOKS" FromRole="BOOKS_AUTHORS" ToRole="BOOKS" />
-        </EntityType>
-        <EntityType Name="BOOKS_GENRES">
-          <Key>
-            <PropertyRef Name="BG_ID" />
-          </Key>
-          <Property Name="BG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BG_BK" Type="Int32" Nullable="false" />
-          <Property Name="BG_GN" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BOOKS" Relationship="Self.FK_BOOKS_GENRES_BOOKS" FromRole="BOOKS_GENRES" ToRole="BOOKS" />
-          <NavigationProperty Name="GENRES" Relationship="Self.FK_BOOKS_GENRES_GENRES" FromRole="BOOKS_GENRES" ToRole="GENRES" />
-        </EntityType>
         <EntityType Name="DICTIONARY_AGE_CATEGORIES">
           <Key>
             <PropertyRef Name="DAC_ID" />
@@ -367,7 +322,7 @@
           <Property Name="GN_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GN_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="GN_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BOOKS_GENRES" Relationship="Self.FK_BOOKS_GENRES_GENRES" FromRole="GENRES" ToRole="BOOKS_GENRES" />
+          <NavigationProperty Name="BOOKS" Relationship="Self.BOOKS_GENRES" FromRole="GENRES" ToRole="BOOKS" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -388,30 +343,6 @@
             </Principal>
             <Dependent Role="AUTHORS_REVIEWS">
               <PropertyRef Name="AR_AU" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BOOKS_AUTHORS_AUTHORS">
-          <End Role="AUTHORS" Type="Self.AUTHORS" Multiplicity="1" />
-          <End Role="BOOKS_AUTHORS" Type="Self.BOOKS_AUTHORS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AUTHORS">
-              <PropertyRef Name="AU_ID" />
-            </Principal>
-            <Dependent Role="BOOKS_AUTHORS">
-              <PropertyRef Name="BA_AU" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AWARDS_BOOKS_AUTHORS">
-          <End Role="BOOKS_AUTHORS" Type="Self.BOOKS_AUTHORS" Multiplicity="1" />
-          <End Role="AWARDS" Type="Self.AWARDS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BOOKS_AUTHORS">
-              <PropertyRef Name="BA_ID" />
-            </Principal>
-            <Dependent Role="AWARDS">
-              <PropertyRef Name="AW_BA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -451,65 +382,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BOOKS_AUTHORS_BOOKS">
-          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
-          <End Role="BOOKS_AUTHORS" Type="Self.BOOKS_AUTHORS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BOOKS">
-              <PropertyRef Name="BK_ID" />
-            </Principal>
-            <Dependent Role="BOOKS_AUTHORS">
-              <PropertyRef Name="BA_BK" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="BOOKS_AUTHORS">
+          <End Role="AUTHORS" Type="Self.AUTHORS" Multiplicity="*" />
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="*" />
         </Association>
-        <Association Name="FK_BOOKS_GENRES_BOOKS">
-          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
-          <End Role="BOOKS_GENRES" Type="Self.BOOKS_GENRES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BOOKS">
-              <PropertyRef Name="BK_ID" />
-            </Principal>
-            <Dependent Role="BOOKS_GENRES">
-              <PropertyRef Name="BG_BK" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="BOOKS_GENRES">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="*" />
+          <End Role="GENRES" Type="Self.GENRES" Multiplicity="*" />
         </Association>
-        <Association Name="FK_BOOKS_GENRES_GENRES">
-          <End Role="GENRES" Type="Self.GENRES" Multiplicity="1" />
-          <End Role="BOOKS_GENRES" Type="Self.BOOKS_GENRES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GENRES">
-              <PropertyRef Name="GN_ID" />
-            </Principal>
-            <Dependent Role="BOOKS_GENRES">
-              <PropertyRef Name="BG_GN" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="DBLibraryEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DBLibraryEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AUTHORS" EntityType="Self.AUTHORS" />
           <EntitySet Name="AUTHORS_REVIEWS" EntityType="Self.AUTHORS_REVIEWS" />
-          <EntitySet Name="AWARDS" EntityType="Self.AWARDS" />
           <EntitySet Name="BOOKS" EntityType="Self.BOOKS" />
           <EntitySet Name="BOOKS_REVIEWS" EntityType="Self.BOOKS_REVIEWS" />
           <EntitySet Name="BOOKS_SOURCES" EntityType="Self.BOOKS_SOURCES" />
-          <EntitySet Name="BOOKS_AUTHORS" EntityType="Self.BOOKS_AUTHORS" />
-          <EntitySet Name="BOOKS_GENRES" EntityType="Self.BOOKS_GENRES" />
           <EntitySet Name="DICTIONARY_AGE_CATEGORIES" EntityType="Self.DICTIONARY_AGE_CATEGORIES" />
           <EntitySet Name="GENRES" EntityType="Self.GENRES" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <AssociationSet Name="FK_AUTHORS_REVIEWS_AUTHORS" Association="Self.FK_AUTHORS_REVIEWS_AUTHORS">
             <End Role="AUTHORS" EntitySet="AUTHORS" />
             <End Role="AUTHORS_REVIEWS" EntitySet="AUTHORS_REVIEWS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BOOKS_AUTHORS_AUTHORS" Association="Self.FK_BOOKS_AUTHORS_AUTHORS">
-            <End Role="AUTHORS" EntitySet="AUTHORS" />
-            <End Role="BOOKS_AUTHORS" EntitySet="BOOKS_AUTHORS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AWARDS_BOOKS_AUTHORS" Association="Self.FK_AWARDS_BOOKS_AUTHORS">
-            <End Role="BOOKS_AUTHORS" EntitySet="BOOKS_AUTHORS" />
-            <End Role="AWARDS" EntitySet="AWARDS" />
           </AssociationSet>
           <AssociationSet Name="FK_BOOKS_DICTIONARY_AGE_CATEGORIES" Association="Self.FK_BOOKS_DICTIONARY_AGE_CATEGORIES">
             <End Role="DICTIONARY_AGE_CATEGORIES" EntitySet="DICTIONARY_AGE_CATEGORIES" />
@@ -523,17 +415,13 @@
             <End Role="BOOKS" EntitySet="BOOKS" />
             <End Role="BOOKS_SOURCES" EntitySet="BOOKS_SOURCES" />
           </AssociationSet>
-          <AssociationSet Name="FK_BOOKS_AUTHORS_BOOKS" Association="Self.FK_BOOKS_AUTHORS_BOOKS">
+          <AssociationSet Name="BOOKS_AUTHORS" Association="Self.BOOKS_AUTHORS">
+            <End Role="AUTHORS" EntitySet="AUTHORS" />
             <End Role="BOOKS" EntitySet="BOOKS" />
-            <End Role="BOOKS_AUTHORS" EntitySet="BOOKS_AUTHORS" />
           </AssociationSet>
-          <AssociationSet Name="FK_BOOKS_GENRES_BOOKS" Association="Self.FK_BOOKS_GENRES_BOOKS">
+          <AssociationSet Name="BOOKS_GENRES" Association="Self.BOOKS_GENRES">
             <End Role="BOOKS" EntitySet="BOOKS" />
-            <End Role="BOOKS_GENRES" EntitySet="BOOKS_GENRES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BOOKS_GENRES_GENRES" Association="Self.FK_BOOKS_GENRES_GENRES">
             <End Role="GENRES" EntitySet="GENRES" />
-            <End Role="BOOKS_GENRES" EntitySet="BOOKS_GENRES" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -541,7 +429,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище DBLibraryModelContainer" CdmEntityContainer="DBLibraryEntities">
+        <EntityContainerMapping StorageEntityContainer="DBLibraryModelStoreContainer" CdmEntityContainer="DBLibraryEntities2">
           <EntitySetMapping Name="AUTHORS">
             <EntityTypeMapping TypeName="DBLibraryModel.AUTHORS">
               <MappingFragment StoreEntitySet="AUTHORS">
@@ -557,17 +445,6 @@
                 <ScalarProperty Name="AR_ID" ColumnName="AR_ID" />
                 <ScalarProperty Name="AR_AU" ColumnName="AR_AU" />
                 <ScalarProperty Name="AR_R" ColumnName="AR_R" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AWARDS">
-            <EntityTypeMapping TypeName="DBLibraryModel.AWARDS">
-              <MappingFragment StoreEntitySet="AWARDS">
-                <ScalarProperty Name="AW_ID" ColumnName="AW_ID" />
-                <ScalarProperty Name="AW_NAME" ColumnName="AW_NAME" />
-                <ScalarProperty Name="AW_DATE" ColumnName="AW_DATE" />
-                <ScalarProperty Name="AW_INFO" ColumnName="AW_INFO" />
-                <ScalarProperty Name="AW_BA" ColumnName="AW_BA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -598,24 +475,6 @@
                 <ScalarProperty Name="BS_BK" ColumnName="BS_BK" />
                 <ScalarProperty Name="BS_S" ColumnName="BS_S" />
                 <ScalarProperty Name="BS_INFO" ColumnName="BS_INFO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BOOKS_AUTHORS">
-            <EntityTypeMapping TypeName="DBLibraryModel.BOOKS_AUTHORS">
-              <MappingFragment StoreEntitySet="BOOKS-AUTHORS">
-                <ScalarProperty Name="BA_ID" ColumnName="BA_ID" />
-                <ScalarProperty Name="BA_BK" ColumnName="BA_BK" />
-                <ScalarProperty Name="BA_AU" ColumnName="BA_AU" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BOOKS_GENRES">
-            <EntityTypeMapping TypeName="DBLibraryModel.BOOKS_GENRES">
-              <MappingFragment StoreEntitySet="BOOKS-GENRES">
-                <ScalarProperty Name="BG_ID" ColumnName="BG_ID" />
-                <ScalarProperty Name="BG_BK" ColumnName="BG_BK" />
-                <ScalarProperty Name="BG_GN" ColumnName="BG_GN" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -650,6 +509,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="BOOKS_AUTHORS" TypeName="DBLibraryModel.BOOKS_AUTHORS" StoreEntitySet="BOOKS-AUTHORS">
+            <EndProperty Name="AUTHORS">
+              <ScalarProperty Name="AU_ID" ColumnName="BA_AU" />
+            </EndProperty>
+            <EndProperty Name="BOOKS">
+              <ScalarProperty Name="BK_ID" ColumnName="BA_BK" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="BOOKS_GENRES" TypeName="DBLibraryModel.BOOKS_GENRES" StoreEntitySet="BOOKS-GENRES">
+            <EndProperty Name="BOOKS">
+              <ScalarProperty Name="BK_ID" ColumnName="BG_BK" />
+            </EndProperty>
+            <EndProperty Name="GENRES">
+              <ScalarProperty Name="GN_ID" ColumnName="BG_GN" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -667,7 +542,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LibraryDataEF.BOOKS>
+﻿@model IEnumerable<WebLibrary.Models.BOOKS>
 
 @{
     ViewBag.Title = "Книги";
@@ -49,7 +49,6 @@
         </td>
         <td>
             @Html.ActionLink("Редагувати", "Edit", new { id=item.BK_ID }) |
-            @Html.ActionLink("Деталі", "Details", new { id=item.BK_ID }) |
             @Html.ActionLink("Відгуки", "BookReviews", "BooksReviews", new { id = item.BK_ID }, null) |
             @Html.ActionLink("Посилання", "BookSources", "BooksSources", new { id = item.BK_ID }, null) |
             @Html.ActionLink("Видалити", "Delete", new { id=item.BK_ID })

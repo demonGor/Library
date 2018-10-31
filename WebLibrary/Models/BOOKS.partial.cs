@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
-namespace LibraryDataEF
+namespace WebLibrary.Models
 {
     [MetadataType(typeof(BOOKSMD))]
     partial class BOOKS
