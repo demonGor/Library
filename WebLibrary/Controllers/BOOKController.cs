@@ -15,18 +15,25 @@ namespace WebLibrary.Controllers
         // GET: BOOK
         public ActionResult BooksRender(string name,string info)
         {
-            var Books = from i in db.BOOKS select i;//вибираємо всі книги
-   if (!String.IsNullOrEmpty(name)) { Books = Books.Where(s => s.BK_NAME.Contains(name)); }//фідфільтровуємо за назвою
-if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(info)); }//фідфільтровуємо за інформацією
-           
+            try
+            {
+                var Books = from i in db.BOOKS select i;//вибираємо всі книги
+               
+                
+                if (!String.IsNullOrEmpty(name)) { Books = Books.Where(s => s.BK_NAME.Contains(name)); }//фідфільтровуємо за назвою
+                if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(info)); }//фідфільтровуємо за інформацією
+               
 
-            return View(Books);
+                return View(Books.ToList());
+            }
+            catch { return View(); }
         }
         public ActionResult Edit(int id=0)
         {
             ViewBag.CmpList = db.DICTIONARY_AGE_CATEGORIES.ToList();
             var R = (from c in db.BOOKS where c.BK_ID == id select c).First();
-            ViewBag.a = (from i in db.AUTHORS where i.BOOKS.Any(x=> x.BK_ID == id) select i).ToList();
+            ViewBag.a = (from i in db.AUTHORS where i.BOOKS_AUTHORS.Any(x=> x.BA_BK == id) select i).ToList();
+            ViewBag.g = (from i in db.GENRES where i.BOOKS_GENRES.Any(x => x.BG_BK == id) select i).ToList();
             ViewBag.Authors = db.AUTHORS.ToList();
             ViewBag.Genres = db.GENRES.ToList();
             return View(R);
@@ -41,23 +48,34 @@ if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(i
             nr.BK_INFO = R.BK_INFO;
             nr.BK_RATING = R.BK_RATING;
             nr.BK_DAC=R.BK_DAC;
-            try
+           try
             {
-
-
-
-                nr.AUTHORS.Clear();
-                nr.GENRES.Clear();
                 db.Entry(nr).State = EntityState.Modified;
-                ViewBag.CmpList = db.DICTIONARY_AGE_CATEGORIES.ToList();
-                ViewBag.a = (from i in db.AUTHORS where i.BOOKS.Any(x => x.BK_ID == R.BK_ID) select i).ToList();
+                db.SaveChanges();
+                var BA = from c in db.BOOKS join d in db.BOOKS_AUTHORS on c.BK_ID equals d.BA_BK where d.BA_BK == nr.BK_ID select d;
+                var BG = from c in db.BOOKS join d in db.BOOKS_GENRES on c.BK_ID equals d.BG_BK where d.BG_BK == nr.BK_ID select d;
+                
+                
+                    db.BOOKS_GENRES.RemoveRange(BG);
+                    db.BOOKS_AUTHORS.RemoveRange(BA);
+
+
+
+                    ViewBag.CmpList = db.DICTIONARY_AGE_CATEGORIES.ToList();
+                ViewBag.a = (from i in db.AUTHORS where i.BOOKS_AUTHORS.Any(x => x.BA_BK == nr.BK_ID) select i).ToList();
+                ViewBag.g = (from i in db.GENRES where i.BOOKS_GENRES.Any(x => x.BG_BK == nr.BK_ID) select i).ToList();
                 ViewBag.Authors = db.AUTHORS.ToList();
                 ViewBag.Genres = db.GENRES.ToList();
+               
                 if (selectedAuthors != null)
                 {
                     foreach (var c in db.AUTHORS.Where(co => selectedAuthors.Contains(co.AU_ID)))
                     {
-                        nr.AUTHORS.Add(c);
+                        BOOKS_AUTHORS my = new BOOKS_AUTHORS();
+                        my.BA_AU = c.AU_ID;
+                        my.BA_BK = nr.BK_ID;
+                        db.BOOKS_AUTHORS.Add(my);
+                       
                     }
                 }
                 if (selectedGenres != null)
@@ -65,13 +83,18 @@ if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(i
                     foreach (var c in db.GENRES.Where(co => selectedGenres.Contains(co.GN_ID)))
                     {
 
-                        nr.GENRES.Add(c);
+                        BOOKS_GENRES my = new BOOKS_GENRES();
+                        my.BG_GN = c.GN_ID;
+                        my.BG_BK = nr.BK_ID;
+                        db.BOOKS_GENRES.Add(my);
+                      
                     }
                 }
-                db.Entry(nr).State = EntityState.Modified;
+               
 
 
                 db.SaveChanges();
+
 
                 return RedirectToAction("BooksRender");
             }
@@ -89,7 +112,9 @@ if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(i
         public ActionResult Create()
         {
            BOOKS R = new BOOKS();
-          
+            ViewBag.a = (from i in db.AUTHORS where i.BOOKS_AUTHORS.Any(x => x.BA_BK == R.BK_ID) select i).ToList();
+            ViewBag.g = (from i in db.GENRES where i.BOOKS_GENRES.Any(x => x.BG_BK == R.BK_ID) select i).ToList();
+
             ViewBag.CmpList = db.DICTIONARY_AGE_CATEGORIES.ToList();
             ViewBag.Authors = db.AUTHORS.ToList();
             ViewBag.Genres = db.GENRES.ToList();
@@ -106,11 +131,21 @@ if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(i
                
                 ViewBag.Authors = db.AUTHORS.ToList();
                 ViewBag.Genres = db.GENRES.ToList();
+                ViewBag.a = (from i in db.AUTHORS where i.BOOKS_AUTHORS.Any(x => x.BA_BK == R.BK_ID) select i).ToList();
+                ViewBag.g = (from i in db.GENRES where i.BOOKS_GENRES.Any(x => x.BG_BK == R.BK_ID) select i).ToList();
+                if (ModelState.IsValid)
+                    db.BOOKS.Add(R);
+
+                db.SaveChanges();
                 if (selectedAuthors != null)
                 {
                     foreach (var c in db.AUTHORS.Where(co => selectedAuthors.Contains(co.AU_ID)))
                     {
-                        R.AUTHORS.Add(c);
+                        BOOKS_AUTHORS my = new BOOKS_AUTHORS();
+                        my.BA_AU = c.AU_ID;
+                        my.BA_BK = R.BK_ID;
+                        db.BOOKS_AUTHORS.Add(my);
+                       
                     }
                 }
                 if (selectedGenres != null)
@@ -118,12 +153,14 @@ if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(i
                     foreach (var c in db.GENRES.Where(co => selectedGenres.Contains(co.GN_ID)))
                     {
 
-                        R.GENRES.Add(c);
+
+                        BOOKS_GENRES my = new BOOKS_GENRES();
+                        my.BG_GN = c.GN_ID;
+                        my.BG_BK = R.BK_ID;
+                        db.BOOKS_GENRES.Add(my);
                     }
                 }
 
-                if (ModelState.IsValid)
-                    db.BOOKS.Add(R);
                 
                 db.SaveChanges();
                 return RedirectToAction("BooksRender");
@@ -148,7 +185,7 @@ if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(i
             ViewBag.CategoryName = db.DICTIONARY_AGE_CATEGORIES.Where(y => y.DAC_ID == id).First().DAC_NAME;
             var list = db.BOOKS.Where(x => x.BK_DAC == id).ToList();
 
-            var xmlDoc = new XmlDocument();
+            /*var xmlDoc = new XmlDocument();
 
             XmlElement el;
 
@@ -178,19 +215,23 @@ if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(i
 
             }
             xmlDoc.Save(getFilePath("XmlDocumentBooks.xml"));
+            */
             return View(db.BOOKS.Where(x => x.BK_DAC == id));
+            
         }
         public ActionResult BooksByAuthor(int id)
 
         {
             ViewBag.AuthorName =  db.AUTHORS.Where(k=>k.AU_ID==id).First().AU_NAME;
-            return View(db.AUTHORS.Where(x=>x.AU_ID==id).First().BOOKS);
+            var h = from i in db.BOOKS join k in db.BOOKS_AUTHORS on i.BK_ID equals k.BA_BK where k.BA_AU == id select i;
+            return View(h.ToList());
         }
         public ActionResult BooksByGenre(int id)
 
         {
             ViewBag.GenreName = db.GENRES.Where(k => k.GN_ID == id).First().GN_NAME;
-            return View(db.GENRES.Where(x => x.GN_ID == id).First().BOOKS);
+            var h = from i in db.BOOKS join k in db.BOOKS_GENRES on i.BK_ID equals k.BG_BK where k.BG_GN == id select i;
+            return View(h.ToList());
         }
         public ActionResult Delete(int id)
         {
@@ -205,10 +246,12 @@ if (!String.IsNullOrEmpty(info)) { Books = Books.Where(s => s.BK_INFO.Contains(i
             var BR = (from c in db.BOOKS_REVIEWS where c.BR_BK == id select c);
             var BS = (from c in db.BOOKS_SOURCES where c.BS_BK == id select c);
             var B = (from c in db.BOOKS where c.BK_ID == id select c).First();
+            var BA = from c in db.BOOKS join d in db.BOOKS_AUTHORS on c.BK_ID equals d.BA_BK where d.BA_BK == id select d;
+            var BG = from c in db.BOOKS join d in db.BOOKS_GENRES on c.BK_ID equals d.BG_BK where d.BG_BK == id select d;
             try
             {
-                db.BOOKS.Where(x => x.BK_ID == id).First().AUTHORS.Clear();
-                db.BOOKS.Where(x => x.BK_ID == id).First().GENRES.Clear();
+                db.BOOKS_GENRES.RemoveRange(BG);
+                db.BOOKS_AUTHORS.RemoveRange(BA);
                 db.BOOKS_REVIEWS.RemoveRange(BR);
                 db.BOOKS_SOURCES.RemoveRange(BS);
                 db.BOOKS.Remove(B);

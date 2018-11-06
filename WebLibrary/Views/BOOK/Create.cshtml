@@ -54,7 +54,7 @@
                 @foreach (var c in ViewBag.Authors)
                 {
                     <input type="checkbox" name="selectedAuthors" value="@c.AU_ID"
-                           @(Model.AUTHORS.Contains(c) ? "checked=\"checked\"" : "") />@c.AU_NAME <br />
+                           @(ViewBag.a.Contains(c) ? "checked=\"checked\"" : "") />@c.AU_NAME <br />
                 }
             </div>
 
@@ -63,7 +63,7 @@
             @foreach (var c in ViewBag.Genres)
                 {
                 <input type="checkbox" name="selectedGenres" value="@c.GN_ID"
-                       @(Model.GENRES.Contains(c) ? "checked=\"checked\"" : "") />@c.GN_NAME <br />
+                       @(ViewBag.g.Contains(c) ? "checked=\"checked\"" : "") />@c.GN_NAME <br />
             }
         </div>
 

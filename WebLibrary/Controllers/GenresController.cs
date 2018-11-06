@@ -66,7 +66,8 @@ namespace WebLibrary.Controllers
             var R = (from c in db.GENRES where c.GN_ID == id select c).First();
             try
             {
-                R.BOOKS.Clear();
+                var BG = from c in db.BOOKS join d in db.BOOKS_GENRES on c.BK_ID equals d.BG_BK where d.BG_GN == id select d;
+                db.BOOKS_GENRES.RemoveRange(BG);
                 db.GENRES.Remove(R);
                 db.SaveChanges();
                 return RedirectToAction("AllGenres");

@@ -1,0 +1,609 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DBLibraryModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AUTHORS">
+          <Key>
+            <PropertyRef Name="AU_ID" />
+          </Key>
+          <Property Name="AU_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AU_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AU_INFO" Type="ntext" />
+        </EntityType>
+        <EntityType Name="AUTHORS_REVIEWS">
+          <Key>
+            <PropertyRef Name="AR_ID" />
+          </Key>
+          <Property Name="AR_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AR_AU" Type="int" Nullable="false" />
+          <Property Name="AR_R" Type="ntext" />
+        </EntityType>
+        <EntityType Name="BOOKS">
+          <Key>
+            <PropertyRef Name="BK_ID" />
+          </Key>
+          <Property Name="BK_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BK_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BK_INFO" Type="ntext" />
+          <Property Name="BK_RATING" Type="int" />
+          <Property Name="BK_DAC" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BOOKS_REVIEWS">
+          <Key>
+            <PropertyRef Name="BR_ID" />
+          </Key>
+          <Property Name="BR_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BR_BK" Type="int" Nullable="false" />
+          <Property Name="BR_R" Type="ntext" />
+        </EntityType>
+        <EntityType Name="BOOKS_SOURCES">
+          <Key>
+            <PropertyRef Name="BS_ID" />
+          </Key>
+          <Property Name="BS_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BS_BK" Type="int" Nullable="false" />
+          <Property Name="BS_S" Type="ntext" />
+          <Property Name="BS_INFO" Type="ntext" />
+        </EntityType>
+        <EntityType Name="BOOKS-AUTHORS">
+          <Key>
+            <PropertyRef Name="BA_ID" />
+          </Key>
+          <Property Name="BA_BK" Type="int" Nullable="false" />
+          <Property Name="BA_AU" Type="int" Nullable="false" />
+          <Property Name="BA_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BOOKS-GENRES">
+          <Key>
+            <PropertyRef Name="BG_ID" />
+          </Key>
+          <Property Name="BG_BK" Type="int" Nullable="false" />
+          <Property Name="BG_GN" Type="int" Nullable="false" />
+          <Property Name="BG_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DICTIONARY_AGE_CATEGORIES">
+          <Key>
+            <PropertyRef Name="DAC_ID" />
+          </Key>
+          <Property Name="DAC_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DAC_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DAC_FROM" Type="int" />
+          <Property Name="DAC_TO" Type="int" />
+          <Property Name="DAC_INFO" Type="ntext" />
+        </EntityType>
+        <EntityType Name="GENRES">
+          <Key>
+            <PropertyRef Name="GN_ID" />
+          </Key>
+          <Property Name="GN_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GN_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GN_INFO" Type="ntext" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_AUTHORS_REVIEWS_AUTHORS">
+          <End Role="AUTHORS" Type="Self.AUTHORS" Multiplicity="1" />
+          <End Role="AUTHORS_REVIEWS" Type="Self.AUTHORS_REVIEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AUTHORS">
+              <PropertyRef Name="AU_ID" />
+            </Principal>
+            <Dependent Role="AUTHORS_REVIEWS">
+              <PropertyRef Name="AR_AU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_DICTIONARY_AGE_CATEGORIES">
+          <End Role="DICTIONARY_AGE_CATEGORIES" Type="Self.DICTIONARY_AGE_CATEGORIES" Multiplicity="1" />
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DICTIONARY_AGE_CATEGORIES">
+              <PropertyRef Name="DAC_ID" />
+            </Principal>
+            <Dependent Role="BOOKS">
+              <PropertyRef Name="BK_DAC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_REVIEWS_BOOKS">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
+          <End Role="BOOKS_REVIEWS" Type="Self.BOOKS_REVIEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKS">
+              <PropertyRef Name="BK_ID" />
+            </Principal>
+            <Dependent Role="BOOKS_REVIEWS">
+              <PropertyRef Name="BR_BK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_SOURCES_BOOKS">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
+          <End Role="BOOKS_SOURCES" Type="Self.BOOKS_SOURCES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKS">
+              <PropertyRef Name="BK_ID" />
+            </Principal>
+            <Dependent Role="BOOKS_SOURCES">
+              <PropertyRef Name="BS_BK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS-AUTHORS_AUTHORS">
+          <End Role="AUTHORS" Type="Self.AUTHORS" Multiplicity="1" />
+          <End Role="BOOKS-AUTHORS" Type="Self.BOOKS-AUTHORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AUTHORS">
+              <PropertyRef Name="AU_ID" />
+            </Principal>
+            <Dependent Role="BOOKS-AUTHORS">
+              <PropertyRef Name="BA_AU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS-AUTHORS_BOOKS">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
+          <End Role="BOOKS-AUTHORS" Type="Self.BOOKS-AUTHORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKS">
+              <PropertyRef Name="BK_ID" />
+            </Principal>
+            <Dependent Role="BOOKS-AUTHORS">
+              <PropertyRef Name="BA_BK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS-GENRES_BOOKS">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
+          <End Role="BOOKS-GENRES" Type="Self.BOOKS-GENRES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKS">
+              <PropertyRef Name="BK_ID" />
+            </Principal>
+            <Dependent Role="BOOKS-GENRES">
+              <PropertyRef Name="BG_BK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS-GENRES_GENRES">
+          <End Role="GENRES" Type="Self.GENRES" Multiplicity="1" />
+          <End Role="BOOKS-GENRES" Type="Self.BOOKS-GENRES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GENRES">
+              <PropertyRef Name="GN_ID" />
+            </Principal>
+            <Dependent Role="BOOKS-GENRES">
+              <PropertyRef Name="BG_GN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище DBLibraryModelContainer">
+          <EntitySet Name="AUTHORS" EntityType="Self.AUTHORS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AUTHORS_REVIEWS" EntityType="Self.AUTHORS_REVIEWS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BOOKS" EntityType="Self.BOOKS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BOOKS_REVIEWS" EntityType="Self.BOOKS_REVIEWS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BOOKS_SOURCES" EntityType="Self.BOOKS_SOURCES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BOOKS-AUTHORS" EntityType="Self.BOOKS-AUTHORS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BOOKS-GENRES" EntityType="Self.BOOKS-GENRES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DICTIONARY_AGE_CATEGORIES" EntityType="Self.DICTIONARY_AGE_CATEGORIES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GENRES" EntityType="Self.GENRES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AUTHORS_REVIEWS_AUTHORS" Association="Self.FK_AUTHORS_REVIEWS_AUTHORS">
+            <End Role="AUTHORS" EntitySet="AUTHORS" />
+            <End Role="AUTHORS_REVIEWS" EntitySet="AUTHORS_REVIEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_DICTIONARY_AGE_CATEGORIES" Association="Self.FK_BOOKS_DICTIONARY_AGE_CATEGORIES">
+            <End Role="DICTIONARY_AGE_CATEGORIES" EntitySet="DICTIONARY_AGE_CATEGORIES" />
+            <End Role="BOOKS" EntitySet="BOOKS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_REVIEWS_BOOKS" Association="Self.FK_BOOKS_REVIEWS_BOOKS">
+            <End Role="BOOKS" EntitySet="BOOKS" />
+            <End Role="BOOKS_REVIEWS" EntitySet="BOOKS_REVIEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_SOURCES_BOOKS" Association="Self.FK_BOOKS_SOURCES_BOOKS">
+            <End Role="BOOKS" EntitySet="BOOKS" />
+            <End Role="BOOKS_SOURCES" EntitySet="BOOKS_SOURCES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS-AUTHORS_AUTHORS" Association="Self.FK_BOOKS-AUTHORS_AUTHORS">
+            <End Role="AUTHORS" EntitySet="AUTHORS" />
+            <End Role="BOOKS-AUTHORS" EntitySet="BOOKS-AUTHORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS-AUTHORS_BOOKS" Association="Self.FK_BOOKS-AUTHORS_BOOKS">
+            <End Role="BOOKS" EntitySet="BOOKS" />
+            <End Role="BOOKS-AUTHORS" EntitySet="BOOKS-AUTHORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS-GENRES_BOOKS" Association="Self.FK_BOOKS-GENRES_BOOKS">
+            <End Role="BOOKS" EntitySet="BOOKS" />
+            <End Role="BOOKS-GENRES" EntitySet="BOOKS-GENRES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS-GENRES_GENRES" Association="Self.FK_BOOKS-GENRES_GENRES">
+            <End Role="GENRES" EntitySet="GENRES" />
+            <End Role="BOOKS-GENRES" EntitySet="BOOKS-GENRES" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBLibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AUTHORS">
+          <Key>
+            <PropertyRef Name="AU_ID" />
+          </Key>
+          <Property Name="AU_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AU_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AU_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AUTHORS_REVIEWS" Relationship="Self.FK_AUTHORS_REVIEWS_AUTHORS" FromRole="AUTHORS" ToRole="AUTHORS_REVIEWS" />
+          <NavigationProperty Name="BOOKS_AUTHORS" Relationship="Self.FK_BOOKS_AUTHORS_AUTHORS" FromRole="AUTHORS" ToRole="BOOKS_AUTHORS" />
+        </EntityType>
+        <EntityType Name="AUTHORS_REVIEWS">
+          <Key>
+            <PropertyRef Name="AR_ID" />
+          </Key>
+          <Property Name="AR_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AR_AU" Type="Int32" Nullable="false" />
+          <Property Name="AR_R" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AUTHORS" Relationship="Self.FK_AUTHORS_REVIEWS_AUTHORS" FromRole="AUTHORS_REVIEWS" ToRole="AUTHORS" />
+        </EntityType>
+        <EntityType Name="BOOKS">
+          <Key>
+            <PropertyRef Name="BK_ID" />
+          </Key>
+          <Property Name="BK_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BK_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BK_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BK_RATING" Type="Int32" />
+          <Property Name="BK_DAC" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DICTIONARY_AGE_CATEGORIES" Relationship="Self.FK_BOOKS_DICTIONARY_AGE_CATEGORIES" FromRole="BOOKS" ToRole="DICTIONARY_AGE_CATEGORIES" />
+          <NavigationProperty Name="BOOKS_REVIEWS" Relationship="Self.FK_BOOKS_REVIEWS_BOOKS" FromRole="BOOKS" ToRole="BOOKS_REVIEWS" />
+          <NavigationProperty Name="BOOKS_SOURCES" Relationship="Self.FK_BOOKS_SOURCES_BOOKS" FromRole="BOOKS" ToRole="BOOKS_SOURCES" />
+          <NavigationProperty Name="BOOKS_AUTHORS" Relationship="Self.FK_BOOKS_AUTHORS_BOOKS" FromRole="BOOKS" ToRole="BOOKS_AUTHORS" />
+          <NavigationProperty Name="BOOKS_GENRES" Relationship="Self.FK_BOOKS_GENRES_BOOKS" FromRole="BOOKS" ToRole="BOOKS_GENRES" />
+        </EntityType>
+        <EntityType Name="BOOKS_REVIEWS">
+          <Key>
+            <PropertyRef Name="BR_ID" />
+          </Key>
+          <Property Name="BR_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BR_BK" Type="Int32" Nullable="false" />
+          <Property Name="BR_R" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BOOKS" Relationship="Self.FK_BOOKS_REVIEWS_BOOKS" FromRole="BOOKS_REVIEWS" ToRole="BOOKS" />
+        </EntityType>
+        <EntityType Name="BOOKS_SOURCES">
+          <Key>
+            <PropertyRef Name="BS_ID" />
+          </Key>
+          <Property Name="BS_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BS_BK" Type="Int32" Nullable="false" />
+          <Property Name="BS_S" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BS_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BOOKS" Relationship="Self.FK_BOOKS_SOURCES_BOOKS" FromRole="BOOKS_SOURCES" ToRole="BOOKS" />
+        </EntityType>
+        <EntityType Name="BOOKS_AUTHORS">
+          <Key>
+            <PropertyRef Name="BA_ID" />
+          </Key>
+          <Property Name="BA_BK" Type="Int32" Nullable="false" />
+          <Property Name="BA_AU" Type="Int32" Nullable="false" />
+          <Property Name="BA_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="AUTHORS" Relationship="Self.FK_BOOKS_AUTHORS_AUTHORS" FromRole="BOOKS_AUTHORS" ToRole="AUTHORS" />
+          <NavigationProperty Name="BOOKS" Relationship="Self.FK_BOOKS_AUTHORS_BOOKS" FromRole="BOOKS_AUTHORS" ToRole="BOOKS" />
+        </EntityType>
+        <EntityType Name="BOOKS_GENRES">
+          <Key>
+            <PropertyRef Name="BG_ID" />
+          </Key>
+          <Property Name="BG_BK" Type="Int32" Nullable="false" />
+          <Property Name="BG_GN" Type="Int32" Nullable="false" />
+          <Property Name="BG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="BOOKS" Relationship="Self.FK_BOOKS_GENRES_BOOKS" FromRole="BOOKS_GENRES" ToRole="BOOKS" />
+          <NavigationProperty Name="GENRES" Relationship="Self.FK_BOOKS_GENRES_GENRES" FromRole="BOOKS_GENRES" ToRole="GENRES" />
+        </EntityType>
+        <EntityType Name="DICTIONARY_AGE_CATEGORIES">
+          <Key>
+            <PropertyRef Name="DAC_ID" />
+          </Key>
+          <Property Name="DAC_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DAC_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DAC_FROM" Type="Int32" />
+          <Property Name="DAC_TO" Type="Int32" />
+          <Property Name="DAC_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BOOKS" Relationship="Self.FK_BOOKS_DICTIONARY_AGE_CATEGORIES" FromRole="DICTIONARY_AGE_CATEGORIES" ToRole="BOOKS" />
+        </EntityType>
+        <EntityType Name="GENRES">
+          <Key>
+            <PropertyRef Name="GN_ID" />
+          </Key>
+          <Property Name="GN_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GN_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GN_INFO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BOOKS_GENRES" Relationship="Self.FK_BOOKS_GENRES_GENRES" FromRole="GENRES" ToRole="BOOKS_GENRES" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_AUTHORS_REVIEWS_AUTHORS">
+          <End Role="AUTHORS" Type="Self.AUTHORS" Multiplicity="1" />
+          <End Role="AUTHORS_REVIEWS" Type="Self.AUTHORS_REVIEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AUTHORS">
+              <PropertyRef Name="AU_ID" />
+            </Principal>
+            <Dependent Role="AUTHORS_REVIEWS">
+              <PropertyRef Name="AR_AU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_AUTHORS_AUTHORS">
+          <End Role="AUTHORS" Type="Self.AUTHORS" Multiplicity="1" />
+          <End Role="BOOKS_AUTHORS" Type="Self.BOOKS_AUTHORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AUTHORS">
+              <PropertyRef Name="AU_ID" />
+            </Principal>
+            <Dependent Role="BOOKS_AUTHORS">
+              <PropertyRef Name="BA_AU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_DICTIONARY_AGE_CATEGORIES">
+          <End Role="DICTIONARY_AGE_CATEGORIES" Type="Self.DICTIONARY_AGE_CATEGORIES" Multiplicity="1" />
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DICTIONARY_AGE_CATEGORIES">
+              <PropertyRef Name="DAC_ID" />
+            </Principal>
+            <Dependent Role="BOOKS">
+              <PropertyRef Name="BK_DAC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_REVIEWS_BOOKS">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
+          <End Role="BOOKS_REVIEWS" Type="Self.BOOKS_REVIEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKS">
+              <PropertyRef Name="BK_ID" />
+            </Principal>
+            <Dependent Role="BOOKS_REVIEWS">
+              <PropertyRef Name="BR_BK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_SOURCES_BOOKS">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
+          <End Role="BOOKS_SOURCES" Type="Self.BOOKS_SOURCES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKS">
+              <PropertyRef Name="BK_ID" />
+            </Principal>
+            <Dependent Role="BOOKS_SOURCES">
+              <PropertyRef Name="BS_BK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_AUTHORS_BOOKS">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
+          <End Role="BOOKS_AUTHORS" Type="Self.BOOKS_AUTHORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKS">
+              <PropertyRef Name="BK_ID" />
+            </Principal>
+            <Dependent Role="BOOKS_AUTHORS">
+              <PropertyRef Name="BA_BK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_GENRES_BOOKS">
+          <End Role="BOOKS" Type="Self.BOOKS" Multiplicity="1" />
+          <End Role="BOOKS_GENRES" Type="Self.BOOKS_GENRES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKS">
+              <PropertyRef Name="BK_ID" />
+            </Principal>
+            <Dependent Role="BOOKS_GENRES">
+              <PropertyRef Name="BG_BK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKS_GENRES_GENRES">
+          <End Role="GENRES" Type="Self.GENRES" Multiplicity="1" />
+          <End Role="BOOKS_GENRES" Type="Self.BOOKS_GENRES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GENRES">
+              <PropertyRef Name="GN_ID" />
+            </Principal>
+            <Dependent Role="BOOKS_GENRES">
+              <PropertyRef Name="BG_GN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBLibraryEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AUTHORS" EntityType="Self.AUTHORS" />
+          <EntitySet Name="AUTHORS_REVIEWS" EntityType="Self.AUTHORS_REVIEWS" />
+          <EntitySet Name="BOOKS" EntityType="Self.BOOKS" />
+          <EntitySet Name="BOOKS_REVIEWS" EntityType="Self.BOOKS_REVIEWS" />
+          <EntitySet Name="BOOKS_SOURCES" EntityType="Self.BOOKS_SOURCES" />
+          <EntitySet Name="BOOKS_AUTHORS" EntityType="Self.BOOKS_AUTHORS" />
+          <EntitySet Name="BOOKS_GENRES" EntityType="Self.BOOKS_GENRES" />
+          <EntitySet Name="DICTIONARY_AGE_CATEGORIES" EntityType="Self.DICTIONARY_AGE_CATEGORIES" />
+          <EntitySet Name="GENRES" EntityType="Self.GENRES" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_AUTHORS_REVIEWS_AUTHORS" Association="Self.FK_AUTHORS_REVIEWS_AUTHORS">
+            <End Role="AUTHORS" EntitySet="AUTHORS" />
+            <End Role="AUTHORS_REVIEWS" EntitySet="AUTHORS_REVIEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_AUTHORS_AUTHORS" Association="Self.FK_BOOKS_AUTHORS_AUTHORS">
+            <End Role="AUTHORS" EntitySet="AUTHORS" />
+            <End Role="BOOKS_AUTHORS" EntitySet="BOOKS_AUTHORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_DICTIONARY_AGE_CATEGORIES" Association="Self.FK_BOOKS_DICTIONARY_AGE_CATEGORIES">
+            <End Role="DICTIONARY_AGE_CATEGORIES" EntitySet="DICTIONARY_AGE_CATEGORIES" />
+            <End Role="BOOKS" EntitySet="BOOKS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_REVIEWS_BOOKS" Association="Self.FK_BOOKS_REVIEWS_BOOKS">
+            <End Role="BOOKS" EntitySet="BOOKS" />
+            <End Role="BOOKS_REVIEWS" EntitySet="BOOKS_REVIEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_SOURCES_BOOKS" Association="Self.FK_BOOKS_SOURCES_BOOKS">
+            <End Role="BOOKS" EntitySet="BOOKS" />
+            <End Role="BOOKS_SOURCES" EntitySet="BOOKS_SOURCES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_AUTHORS_BOOKS" Association="Self.FK_BOOKS_AUTHORS_BOOKS">
+            <End Role="BOOKS" EntitySet="BOOKS" />
+            <End Role="BOOKS_AUTHORS" EntitySet="BOOKS_AUTHORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_GENRES_BOOKS" Association="Self.FK_BOOKS_GENRES_BOOKS">
+            <End Role="BOOKS" EntitySet="BOOKS" />
+            <End Role="BOOKS_GENRES" EntitySet="BOOKS_GENRES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKS_GENRES_GENRES" Association="Self.FK_BOOKS_GENRES_GENRES">
+            <End Role="GENRES" EntitySet="GENRES" />
+            <End Role="BOOKS_GENRES" EntitySet="BOOKS_GENRES" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DBLibraryModelContainer" CdmEntityContainer="DBLibraryEntities1">
+          <EntitySetMapping Name="AUTHORS">
+            <EntityTypeMapping TypeName="DBLibraryModel.AUTHORS">
+              <MappingFragment StoreEntitySet="AUTHORS">
+                <ScalarProperty Name="AU_ID" ColumnName="AU_ID" />
+                <ScalarProperty Name="AU_NAME" ColumnName="AU_NAME" />
+                <ScalarProperty Name="AU_INFO" ColumnName="AU_INFO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AUTHORS_REVIEWS">
+            <EntityTypeMapping TypeName="DBLibraryModel.AUTHORS_REVIEWS">
+              <MappingFragment StoreEntitySet="AUTHORS_REVIEWS">
+                <ScalarProperty Name="AR_ID" ColumnName="AR_ID" />
+                <ScalarProperty Name="AR_AU" ColumnName="AR_AU" />
+                <ScalarProperty Name="AR_R" ColumnName="AR_R" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BOOKS">
+            <EntityTypeMapping TypeName="DBLibraryModel.BOOKS">
+              <MappingFragment StoreEntitySet="BOOKS">
+                <ScalarProperty Name="BK_ID" ColumnName="BK_ID" />
+                <ScalarProperty Name="BK_NAME" ColumnName="BK_NAME" />
+                <ScalarProperty Name="BK_INFO" ColumnName="BK_INFO" />
+                <ScalarProperty Name="BK_RATING" ColumnName="BK_RATING" />
+                <ScalarProperty Name="BK_DAC" ColumnName="BK_DAC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BOOKS_REVIEWS">
+            <EntityTypeMapping TypeName="DBLibraryModel.BOOKS_REVIEWS">
+              <MappingFragment StoreEntitySet="BOOKS_REVIEWS">
+                <ScalarProperty Name="BR_ID" ColumnName="BR_ID" />
+                <ScalarProperty Name="BR_BK" ColumnName="BR_BK" />
+                <ScalarProperty Name="BR_R" ColumnName="BR_R" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BOOKS_SOURCES">
+            <EntityTypeMapping TypeName="DBLibraryModel.BOOKS_SOURCES">
+              <MappingFragment StoreEntitySet="BOOKS_SOURCES">
+                <ScalarProperty Name="BS_ID" ColumnName="BS_ID" />
+                <ScalarProperty Name="BS_BK" ColumnName="BS_BK" />
+                <ScalarProperty Name="BS_S" ColumnName="BS_S" />
+                <ScalarProperty Name="BS_INFO" ColumnName="BS_INFO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BOOKS_AUTHORS">
+            <EntityTypeMapping TypeName="DBLibraryModel.BOOKS_AUTHORS">
+              <MappingFragment StoreEntitySet="BOOKS-AUTHORS">
+                <ScalarProperty Name="BA_BK" ColumnName="BA_BK" />
+                <ScalarProperty Name="BA_AU" ColumnName="BA_AU" />
+                <ScalarProperty Name="BA_ID" ColumnName="BA_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BOOKS_GENRES">
+            <EntityTypeMapping TypeName="DBLibraryModel.BOOKS_GENRES">
+              <MappingFragment StoreEntitySet="BOOKS-GENRES">
+                <ScalarProperty Name="BG_BK" ColumnName="BG_BK" />
+                <ScalarProperty Name="BG_GN" ColumnName="BG_GN" />
+                <ScalarProperty Name="BG_ID" ColumnName="BG_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DICTIONARY_AGE_CATEGORIES">
+            <EntityTypeMapping TypeName="DBLibraryModel.DICTIONARY_AGE_CATEGORIES">
+              <MappingFragment StoreEntitySet="DICTIONARY_AGE_CATEGORIES">
+                <ScalarProperty Name="DAC_ID" ColumnName="DAC_ID" />
+                <ScalarProperty Name="DAC_NAME" ColumnName="DAC_NAME" />
+                <ScalarProperty Name="DAC_FROM" ColumnName="DAC_FROM" />
+                <ScalarProperty Name="DAC_TO" ColumnName="DAC_TO" />
+                <ScalarProperty Name="DAC_INFO" ColumnName="DAC_INFO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GENRES">
+            <EntityTypeMapping TypeName="DBLibraryModel.GENRES">
+              <MappingFragment StoreEntitySet="GENRES">
+                <ScalarProperty Name="GN_ID" ColumnName="GN_ID" />
+                <ScalarProperty Name="GN_NAME" ColumnName="GN_NAME" />
+                <ScalarProperty Name="GN_INFO" ColumnName="GN_INFO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DBLibraryModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

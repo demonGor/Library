@@ -69,12 +69,13 @@ namespace WebLibrary.Controllers
             
            
             var AR = (from c in db.AUTHORS_REVIEWS where c.AR_AU == id select c);
-           
+            var B = from c in db.BOOKS join d in db.BOOKS_AUTHORS on c.BK_ID equals d.BA_BK where d.BA_AU == id select d;
             var A = (from c in db.AUTHORS where c.AU_ID == id select c).First();
             try
             {
-                A.BOOKS.Clear();
-               
+                db.BOOKS_AUTHORS.RemoveRange(B);
+
+
                 db.AUTHORS_REVIEWS.RemoveRange(AR);
               
                 db.AUTHORS.Remove(A);
